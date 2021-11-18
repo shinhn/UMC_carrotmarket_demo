@@ -1,7 +1,9 @@
 package com.example.demo.src.item;
 
 import com.example.demo.src.item.model.GetItemRes;
+import com.example.demo.src.item.model.PostItemReq;
 import com.example.demo.src.user.model.GetUserRes;
+import com.example.demo.src.user.model.PostUserReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -58,5 +60,15 @@ public class ItemDao {
                         rs.getInt("likes")
                 ),
                 getUsersByNameParams); // 해당 닉네임을 갖는 모든 User 정보를 얻기 위해 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
+    }
+
+    // 상품 등록
+    public int uploadItem(PostItemReq postItemReq) {
+        String uploadItemQuery = "insert into Item (name, userName, location, itemImgUrl, date, description, price, views, likes) VALUES (?,?,?,?,?,?,?,?,?)";
+        Object[] uploadItemParams = new Object[]{postItemReq.getName(), postItemReq.getUserName(),postItemReq.getLocation(),postItemReq.getItemImgUrl(),postItemReq.getDate(),postItemReq.getDescription(),postItemReq.getPrice(),postItemReq.getViews(),postItemReq.getLikes()}; // 동적 쿼리의 ?부분에 주입될 값
+        this.jdbcTemplate.update(uploadItemQuery, uploadItemParams);
+
+        String lastInserIdQuery = "select last_insert_id()";
+        return this.jdbcTemplate.queryForObject(lastInserIdQuery, int.class);
     }
 }
