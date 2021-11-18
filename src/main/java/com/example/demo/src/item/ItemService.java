@@ -3,6 +3,7 @@ package com.example.demo.src.item;
 import com.example.demo.config.BaseException;
 import com.example.demo.config.secret.Secret;
 import com.example.demo.src.item.model.PatchItemReq;
+import com.example.demo.src.item.model.PatchItemStatusReq;
 import com.example.demo.src.item.model.PostItemReq;
 import com.example.demo.src.item.model.PostItemRes;
 import com.example.demo.src.user.model.PatchUserReq;
@@ -57,4 +58,15 @@ public class ItemService {
         }
     }
 
+    // 상품상태변경 (PATCH)
+    public void modifyItemStatus(PatchItemStatusReq patchItemStatusReq) throws BaseException {
+        try {
+            int result = itemDao.modifyItemStatus(patchItemStatusReq); // 해당 과정이 무사히 수행되면 True(1), 그렇지 않으면 False(0)입니다.
+            if (result == 0) { // result값이 0이면 과정이 실패한 것이므로 에러 메서지를 보냅니다.
+                throw new BaseException(MODIFY_FAIL_USERNAME);
+            }
+        } catch (Exception exception) { // DB에 이상이 있는 경우 에러 메시지를 보냅니다.
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

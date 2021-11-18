@@ -2,6 +2,7 @@ package com.example.demo.src.item;
 
 import com.example.demo.src.item.model.GetItemRes;
 import com.example.demo.src.item.model.PatchItemReq;
+import com.example.demo.src.item.model.PatchItemStatusReq;
 import com.example.demo.src.item.model.PostItemReq;
 import com.example.demo.src.user.model.GetUserRes;
 import com.example.demo.src.user.model.PatchUserReq;
@@ -75,11 +76,18 @@ public class ItemDao {
     }
 
     // 상품 가격 변경
-    // modifyItemPrice
     public int modifyItemPrice(PatchItemReq patchItemReq) {
         String modifyItemPriceQuery = "update Item set price = ? where itemIndex = ? "; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
         Object[] modifyItemPriceParams = new Object[]{patchItemReq.getPrice(), patchItemReq.getItemIndex()}; // 주입될 값들(nickname, userIdx) 순
 
         return this.jdbcTemplate.update(modifyItemPriceQuery, modifyItemPriceParams); // 대응시켜 매핑시켜 쿼리 요청(생성했으면 1, 실패했으면 0)
+    }
+
+    // 상품 상태 변경
+    public int modifyItemStatus(PatchItemStatusReq patchItemStatusReq) {
+        String modifyItemStatusQuery = "update Item set status = ? where itemIndex = ? "; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
+        Object[] modifyItemStatusParams = new Object[]{patchItemStatusReq.getStatus(), patchItemStatusReq.getItemIndex()}; // 주입될 값들(nickname, userIdx) 순
+
+        return this.jdbcTemplate.update(modifyItemStatusQuery, modifyItemStatusParams); // 대응시켜 매핑시켜 쿼리 요청(생성했으면 1, 실패했으면 0)
     }
 }

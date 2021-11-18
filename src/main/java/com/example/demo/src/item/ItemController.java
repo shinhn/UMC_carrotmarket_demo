@@ -78,4 +78,20 @@ public class ItemController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    // 상품 상태(status) 변경 API (판매완료, 판매중 등)
+    // [PATCH] /item/modify/:itemIndex
+    @ResponseBody
+    @PatchMapping("app/item/modify/{itemIndex}")
+    public BaseResponse<String> modifyItemStatus(@PathVariable("itemIndex") int itemIndex, @RequestBody Item item) {
+        try {
+            PatchItemStatusReq patchItemStatusReq = new PatchItemStatusReq(itemIndex, item.getStatus());
+            itemService.modifyItemStatus(patchItemStatusReq);
+
+            String result = "상품의 상태정보가 수정되었습니다.";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }
