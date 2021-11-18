@@ -1,8 +1,10 @@
 package com.example.demo.src.item;
 
 import com.example.demo.src.item.model.GetItemRes;
+import com.example.demo.src.item.model.PatchItemReq;
 import com.example.demo.src.item.model.PostItemReq;
 import com.example.demo.src.user.model.GetUserRes;
+import com.example.demo.src.user.model.PatchUserReq;
 import com.example.demo.src.user.model.PostUserReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -70,5 +72,14 @@ public class ItemDao {
 
         String lastInserIdQuery = "select last_insert_id()";
         return this.jdbcTemplate.queryForObject(lastInserIdQuery, int.class);
+    }
+
+    // 상품 가격 변경
+    // modifyItemPrice
+    public int modifyItemPrice(PatchItemReq patchItemReq) {
+        String modifyItemPriceQuery = "update Item set price = ? where itemIndex = ? "; // 해당 userIdx를 만족하는 User를 해당 nickname으로 변경한다.
+        Object[] modifyItemPriceParams = new Object[]{patchItemReq.getPrice(), patchItemReq.getItemIndex()}; // 주입될 값들(nickname, userIdx) 순
+
+        return this.jdbcTemplate.update(modifyItemPriceQuery, modifyItemPriceParams); // 대응시켜 매핑시켜 쿼리 요청(생성했으면 1, 실패했으면 0)
     }
 }

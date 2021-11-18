@@ -2,12 +2,8 @@ package com.example.demo.src.item;
 
 import com.example.demo.config.BaseException;
 import com.example.demo.config.BaseResponse;
-import com.example.demo.src.item.model.GetItemRes;
-import com.example.demo.src.item.model.PostItemReq;
-import com.example.demo.src.item.model.PostItemRes;
-import com.example.demo.src.user.model.GetUserRes;
-import com.example.demo.src.user.model.PostUserReq;
-import com.example.demo.src.user.model.PostUserRes;
+import com.example.demo.src.item.model.*;
+import com.example.demo.src.user.model.*;
 import com.example.demo.utils.JwtService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,8 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.example.demo.config.BaseResponseStatus.POST_USERS_EMPTY_EMAIL;
-import static com.example.demo.config.BaseResponseStatus.POST_USERS_INVALID_EMAIL;
+import static com.example.demo.config.BaseResponseStatus.*;
 import static com.example.demo.utils.ValidationRegex.isRegexEmail;
 
 @RestController
@@ -63,6 +58,22 @@ public class ItemController {
         try {
             PostItemRes postItemRes = itemService.uploadItem(postItemReq);
             return new BaseResponse<>(postItemRes);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+     // 상품 가격 변경 API
+     // [PATCH] /item/:itemIndex
+    @ResponseBody
+    @PatchMapping("app/item/{itemIndex}")
+    public BaseResponse<String> modifyItemPrice(@PathVariable("itemIndex") int itemIndex, @RequestBody Item item) {
+        try {
+            PatchItemReq patchItemReq = new PatchItemReq(itemIndex, item.getPrice());
+            itemService.modifyItemPrice(patchItemReq);
+
+            String result = "회원정보가 수정되었습니다.";
+            return new BaseResponse<>(result);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }
