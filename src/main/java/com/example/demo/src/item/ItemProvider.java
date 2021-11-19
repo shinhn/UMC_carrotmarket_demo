@@ -46,4 +46,14 @@ public class ItemProvider {
             throw new BaseException(DATABASE_ERROR);
         }
     }
+
+    // 해당 status를 갖는 상품 정보 조회 (판매중, 판매완료)
+    public List<GetItemRes> getItemByStatus(String status) throws BaseException {
+        try {
+            List<GetItemRes> getItemRes = itemDao.getItemByStatus(status);
+            return getItemRes;
+        } catch (Exception exception) {
+            throw new BaseException(DATABASE_ERROR);
+        }
+    }
 }

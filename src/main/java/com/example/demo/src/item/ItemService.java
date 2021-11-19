@@ -16,6 +16,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 import static com.example.demo.config.BaseResponseStatus.*;
 
 @Service
@@ -37,6 +39,7 @@ public class ItemService {
     }
 
     // 상품등록 (Post)
+    @Transactional
     public PostItemRes uploadItem(PostItemReq postItemReq) throws BaseException {
         try {
             int itemIndex = itemDao.uploadItem(postItemReq);

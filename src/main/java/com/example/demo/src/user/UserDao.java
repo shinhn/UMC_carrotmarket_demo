@@ -94,7 +94,8 @@ public class UserDao {
                         rs.getInt("userIdx"),
                         rs.getString("email"),
                         rs.getString("password"),
-                        rs.getString("nickname")
+                        rs.getString("nickname"),
+                        rs.getString("status")
                 ), // RowMapper(위의 링크 참조): 원하는 결과값 형태로 받기
                 getPwdParams
         ); // 한 개의 회원정보를 얻기 위한 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
@@ -151,5 +152,21 @@ public class UserDao {
         Object[] modifyUserEmailParams = new Object[]{putUserReq.getEmail(), putUserReq.getUserIdx()}; // 주입될 값들(email, userIdx) 순
 
         return this.jdbcTemplate.update(modifyUserEmailQuery, modifyUserEmailParams); // 대응시켜 매핑시켜 쿼리 요청(생성했으면 1, 실패했으면 0)
+    }
+
+    // 회원정보 이메일 변경
+    public int modifyUserEmail2(PatchUserEmailReq patchUserEmailReq) {
+        String modifyUserEmailQuery = "update User set email = ? where userIdx = ? ";
+        Object[] modifyUserEmailParams = new Object[]{patchUserEmailReq.getEmail(), patchUserEmailReq.getUserIdx()};
+
+        return this.jdbcTemplate.update(modifyUserEmailQuery, modifyUserEmailParams); // 대응시켜 매핑시켜 쿼리 요청(생성했으면 1, 실패했으면 0)
+    }
+
+    // 회원정보 status 변경
+    public int modifyUserStatus(PatchUserStatusReq patchUserStatusReq) {
+        String modifyUserStatusQuery = "update User set status = ? where userIdx = ? ";
+        Object[] modifyUserStatusParams = new Object[]{patchUserStatusReq.getStatus(), patchUserStatusReq.getUserIdx()};
+
+        return this.jdbcTemplate.update(modifyUserStatusQuery, modifyUserStatusParams); // 대응시켜 매핑시켜 쿼리 요청(생성했으면 1, 실패했으면 0)
     }
 }

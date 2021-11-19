@@ -17,4 +17,5 @@ public class PostItemReq {
     private String price;
     private int views;
     private int likes;
+    private String status;
 }

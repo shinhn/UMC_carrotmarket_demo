@@ -35,6 +35,9 @@ public class ItemController {
 
     // 모든 상품 조회 API
     // [GET] /app/item
+
+    // 특정 이름 상품 조회 API
+    // [GET] /app/item?name=
     @ResponseBody
     @GetMapping("/app/item")
     public BaseResponse<List<GetItemRes>> getItems(@RequestParam(required = false) String name) {
@@ -80,9 +83,9 @@ public class ItemController {
     }
 
     // 상품 상태(status) 변경 API (판매완료, 판매중 등)
-    // [PATCH] /item/modify/:itemIndex
+    // [PATCH] /item/status/:itemIndex
     @ResponseBody
-    @PatchMapping("app/item/modify/{itemIndex}")
+    @PatchMapping("app/item/status/{itemIndex}")
     public BaseResponse<String> modifyItemStatus(@PathVariable("itemIndex") int itemIndex, @RequestBody Item item) {
         try {
             PatchItemStatusReq patchItemStatusReq = new PatchItemStatusReq(itemIndex, item.getStatus());
@@ -90,6 +93,19 @@ public class ItemController {
 
             String result = "상품의 상태정보가 수정되었습니다.";
             return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    // 특정 상태(판매중 or 판매완료) 상품 조회 API
+    // [GET] /app/item?status=
+    @ResponseBody
+    @GetMapping("/app/item-status")
+    public BaseResponse<List<GetItemRes>> getItemByStatus(@RequestParam(required = false) String status) {
+        try {
+            List<GetItemRes> getItemRes = itemProvider.getItemByStatus(status);
+            return new BaseResponse<>(getItemRes);
         } catch (BaseException exception) {
             return new BaseResponse<>((exception.getStatus()));
         }

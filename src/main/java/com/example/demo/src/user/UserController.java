@@ -209,4 +209,41 @@ public class UserController {
             return new BaseResponse<>((exception.getStatus()));
         }
     }
+
+    /**
+     * 특정 유저 email 수정 API
+     * [PATCH] /users/email/:userIdx
+     */
+    @ResponseBody
+    @PatchMapping("/email/{userIdx}")
+    public BaseResponse<String> modifyUserEmail2(@PathVariable("userIdx") int userIdx, @RequestBody User user) {
+        try {
+
+            PatchUserEmailReq patchUserEmailReq = new PatchUserEmailReq(userIdx, user.getEmail());
+            userService.modifyUserEmail2(patchUserEmailReq);
+
+            String result = "회원정보가 수정되었습니다.";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
+
+    /**
+     * 특정 유저 status 수정 API
+     * [PATCH] /users/status/:userIdx
+     */
+    @ResponseBody
+    @PatchMapping("/status/{userIdx}")
+    public BaseResponse<String> modifyUserStatus(@PathVariable("userIdx") int userIdx, @RequestBody User user) {
+        try {
+            PatchUserStatusReq patchUserStatusReq = new PatchUserStatusReq(userIdx, user.getStatus());
+            userService.modifyUserStatus(patchUserStatusReq);
+
+            String result = "회원정보가 수정되었습니다.";
+            return new BaseResponse<>(result);
+        } catch (BaseException exception) {
+            return new BaseResponse<>((exception.getStatus()));
+        }
+    }
 }

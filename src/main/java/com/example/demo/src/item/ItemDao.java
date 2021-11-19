@@ -46,10 +46,10 @@ public class ItemDao {
 
     // 해당 name을 갖는 상품의 정보 조회
     public List<GetItemRes> getItemByName(String name) {
-        String getUsersByNameQuery = "select * from Item where name =?";
-        String getUsersByNameParams = name;
+        String getItemByNameQuery = "select * from Item where name =?";
+        String getItemByNameParams = name;
 
-        return this.jdbcTemplate.query(getUsersByNameQuery,
+        return this.jdbcTemplate.query(getItemByNameQuery,
                 (rs, rowNum) -> new GetItemRes(
                         rs.getInt("itemIndex"),
                         rs.getString("name"),
@@ -62,7 +62,7 @@ public class ItemDao {
                         rs.getInt("views"),
                         rs.getInt("likes")
                 ),
-                getUsersByNameParams); // 해당 닉네임을 갖는 모든 User 정보를 얻기 위해 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
+                getItemByNameParams); // 해당 닉네임을 갖는 모든 User 정보를 얻기 위해 jdbcTemplate 함수(Query, 객체 매핑 정보, Params)의 결과 반환
     }
 
     // 상품 등록
@@ -89,5 +89,26 @@ public class ItemDao {
         Object[] modifyItemStatusParams = new Object[]{patchItemStatusReq.getStatus(), patchItemStatusReq.getItemIndex()}; // 주입될 값들(nickname, userIdx) 순
 
         return this.jdbcTemplate.update(modifyItemStatusQuery, modifyItemStatusParams); // 대응시켜 매핑시켜 쿼리 요청(생성했으면 1, 실패했으면 0)
+    }
+
+    // 해당 status를 갖는 상품의 정보 조회 (판매중, 판매완료)
+    public List<GetItemRes> getItemByStatus(String status) {
+        String getItemByStatusQuery = "select * from Item where status =?";
+        String getItemByStatusParams = status;
+
+        return this.jdbcTemplate.query(getItemByStatusQuery,
+                (rs, rowNum) -> new GetItemRes(
+                        rs.getInt("itemIndex"),
+                        rs.getString("name"),
+                        rs.getString("userName"),
+                        rs.getString("location"),
+                        rs.getString("itemImgUrl"),
+                        rs.getString("date"),
+                        rs.getString("description"),
+                        rs.getString("price"),
+                        rs.getInt("views"),
+                        rs.getInt("likes")
+                ),
+                getItemByStatusParams);
     }
 }
