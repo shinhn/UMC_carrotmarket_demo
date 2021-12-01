@@ -15,6 +15,9 @@ import java.util.List;
 import static com.example.demo.config.BaseResponseStatus.*;
 import static com.example.demo.utils.ValidationRegex.isRegexEmail;
 
+// CORS 적용
+@CrossOrigin("*") // 모든 요청에 대해 접근을 허용하기 때문에 보안적으로 절대 좋은 방법이 아님
+
 @RestController
 
 public class ItemController {
