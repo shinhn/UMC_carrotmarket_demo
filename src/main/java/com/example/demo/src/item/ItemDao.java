@@ -26,7 +26,7 @@ public class ItemDao {
 
     // Item 테이블에 존재하는 전체 상품 정보 조회
     public List<GetItemRes> getItems() {
-        String getItemQuery = "select * from Item";
+        String getItemQuery = "select * from Item2";
 
         return this.jdbcTemplate.query(getItemQuery,
                 (rs, rowNum) -> new GetItemRes(
