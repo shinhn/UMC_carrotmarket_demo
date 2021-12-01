@@ -67,7 +67,7 @@ public class ItemDao {
 
     // 상품 등록
     public int uploadItem(PostItemReq postItemReq) {
-        String uploadItemQuery = "insert into Item (name, userName, location, itemImgUrl, date, description, price, views, likes) VALUES (?,?,?,?,?,?,?,?,?)";
+        String uploadItemQuery = "insert into Item2 (name, userName, location, itemImgUrl, date, description, price, views, likes) VALUES (?,?,?,?,?,?,?,?,?)";
         Object[] uploadItemParams = new Object[]{postItemReq.getName(), postItemReq.getUserName(),postItemReq.getLocation(),postItemReq.getItemImgUrl(),postItemReq.getDate(),postItemReq.getDescription(),postItemReq.getPrice(),postItemReq.getViews(),postItemReq.getLikes()}; // 동적 쿼리의 ?부분에 주입될 값
         this.jdbcTemplate.update(uploadItemQuery, uploadItemParams);
 
