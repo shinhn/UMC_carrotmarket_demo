@@ -28,9 +28,10 @@ public class ItemProvider {
     }
 
     // 모든 상품 조회
-    public List<GetItemRes> getItems() throws BaseException {
+    // paging 처리를 위해 int pageNum 인자 추가
+    public List<GetItemRes> getItems(int pageNum) throws BaseException {
         try {
-            List<GetItemRes> getItemRes = itemDao.getItems();
+            List<GetItemRes> getItemRes = itemDao.getItems(pageNum);
             return getItemRes;
         } catch (Exception exception) {
             throw new BaseException(DATABASE_ERROR);

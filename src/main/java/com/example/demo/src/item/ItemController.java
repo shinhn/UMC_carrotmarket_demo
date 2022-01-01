@@ -41,12 +41,15 @@ public class ItemController {
 
     // 특정 이름 상품 조회 API
     // [GET] /app/item?name=
+
+    // 특정 page 상품 조회 API
+    // [GET] /app/item?pageNum=
     @ResponseBody
     @GetMapping("/app/item")
-    public BaseResponse<List<GetItemRes>> getItems(@RequestParam(required = false) String name) {
+    public BaseResponse<List<GetItemRes>> getItems(@RequestParam(required = false) String name, @RequestParam int pageNum) {
         try {
             if (name == null) {
-                List<GetItemRes> getItemRes = itemProvider.getItems();
+                List<GetItemRes> getItemRes = itemProvider.getItems(pageNum);
                 return new BaseResponse<>(getItemRes);
             }
             List<GetItemRes> getItemRes = itemProvider.getItemByName(name);

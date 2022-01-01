@@ -26,7 +26,7 @@ public class ItemDao {
 
     // Item 테이블에 존재하는 전체 상품 정보 조회
     public List<GetItemRes> getItems() {
-        String getItemQuery = "select * from Item2";
+        String getItemQuery = "select * from Item";
 
         return this.jdbcTemplate.query(getItemQuery,
                 (rs, rowNum) -> new GetItemRes(
@@ -41,6 +41,29 @@ public class ItemDao {
                         rs.getInt("views"),
                         rs.getInt("likes")
                         )
+        );
+    }
+
+    // 상품 정보 조회 (paging)
+    public List<GetItemRes> getItems(int pageNum) {
+
+        String getItemQuery = "select * from Item limit 2 offset ?"; // LIMIT: 행을 얼마나 가져올지, OFFSET: 어디서 부터 가져올지
+        int getItemParams = (pageNum-1)*2; // offset시작 페이지 = (페이지-1)*페이지당 데이터 수
+
+        return this.jdbcTemplate.query(getItemQuery,
+                (rs, rowNum) -> new GetItemRes(
+                        rs.getInt("itemIndex"),
+                        rs.getString("name"),
+                        rs.getString("userName"),
+                        rs.getString("location"),
+                        rs.getString("itemImgUrl"),
+                        rs.getString("date"),
+                        rs.getString("description"),
+                        rs.getString("price"),
+                        rs.getInt("views"),
+                        rs.getInt("likes") // RowMapper : 원하는 결과값 형태로 받기
+                ),
+                getItemParams
         );
     }
 
